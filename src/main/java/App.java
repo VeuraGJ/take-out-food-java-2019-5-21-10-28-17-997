@@ -27,10 +27,8 @@ public class App {
             while (it.hasNext()){
                 Item item=it.next();
                 if(item.getId().equals(inputArray[0])){
-                    if(Integer.parseInt(inputArray[1])>1){
-                        bf.append(item.getName()+" x "+inputArray[1]+" = "+format.format(item.getPrice()*Integer.parseInt(inputArray[1]))+"元\n");
-                    }
-                    else bf.append(item.getName()+" x "+inputArray[1]+" = "+format.format(item.getPrice())+"元\n");
+                    bf.append(item.getName()+" x "+inputArray[1]+" = "+format.format(item.getPrice()*Integer.parseInt(inputArray[1]))+"元\n");
+                    
                     noSale+=item.getPrice()*Integer.parseInt(inputArray[1]);
                     if(salesPromotionRepository.findAll().get(1).getRelatedItems().contains(item.getId())){
                         salePro2+=item.getPrice()/2*Integer.parseInt(inputArray[1]);
