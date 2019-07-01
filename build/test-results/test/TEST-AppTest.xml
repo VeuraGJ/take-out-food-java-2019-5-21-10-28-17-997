@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="AppTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-07-01T07:59:22" hostname="LAPTOP-EO6JRO4B" time="0.007">
+  <properties/>
+  <testcase name="should_use_buy_30_save_6_sales_promotion" classname="AppTest" time="0.006"/>
+  <testcase name="should_use_no_sales_promotion" classname="AppTest" time="0.0"/>
+  <testcase name="should_use_50_percentage_sales_promotion" classname="AppTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
