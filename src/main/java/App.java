@@ -19,7 +19,7 @@ public class App {
         //TODO: write code here
         StringBuffer bf=new StringBuffer("============= 订餐明细 =============\n");
         ArrayList<String>  discountItem=new ArrayList<>();
-        double salePro1=0,salePro2=0,noSale=0,saleMoney=0;
+        double noSale=0d,saleMoney=0d;
         DecimalFormat format=new DecimalFormat("#.##");
         for(int i=0;i<inputs.size();i++){
             String[] inputArray=inputs.get(i).split(" x ");
@@ -28,45 +28,36 @@ public class App {
                 Item item=it.next();
                 if(item.getId().equals(inputArray[0])){
                     bf.append(item.getName()+" x "+inputArray[1]+" = "+format.format(item.getPrice()*Integer.parseInt(inputArray[1]))+"元\n");
-                    
+
                     noSale+=item.getPrice()*Integer.parseInt(inputArray[1]);
                     if(salesPromotionRepository.findAll().get(1).getRelatedItems().contains(item.getId())){
-                        salePro2+=item.getPrice()/2*Integer.parseInt(inputArray[1]);
                         saleMoney+=item.getPrice()/2*Integer.parseInt(inputArray[1]);
                         discountItem.add(item.getName());
-                    }else  salePro2+=item.getPrice()*Integer.parseInt(inputArray[1]);
+                    }
                 }
             }
 
         }
         bf.append("-----------------------------------\n");
-        salePro1=noSale;
-        if(salePro1>=30){
-            salePro1-=6;
-        }
-        if(salePro1<=salePro2&&salePro1<noSale){
+        if(noSale>=30d&&saleMoney<=6d){
             bf.append(  "使用优惠:\n" +
                     "满30减6元，省6元\n" +
-                    "-----------------------------------\n" +
-                    "总计："+format.format(salePro1)+"元\n" +
-                    "===================================");
+                    "-----------------------------------\n" );
+            noSale-=6;
         }
-        String discountMeal="";
-        if(discountItem.size()>0) {
-            if (discountItem.size() == 1) discountMeal = discountItem.get(0);
-            else discountMeal = discountItem.get(0) + "，" + discountItem.get(1);
-        }
-        if(salePro2<salePro1&&salePro2<noSale){
+        else if((noSale>=30d&&saleMoney>6d)||(noSale<30d&&saleMoney!=0d)){
+            String discountMeal="";
+            if(discountItem.size()>0) {
+                if (discountItem.size() == 1) discountMeal = discountItem.get(0);
+                else discountMeal = discountItem.get(0) + "，" + discountItem.get(1);
+            }
             bf.append( "使用优惠:\n" +
                     "指定菜品半价("+discountMeal+")，省"+format.format(saleMoney)+"元\n" +
-                    "-----------------------------------\n" +
-                    "总计："+format.format(salePro2)+"元\n" +
-                    "===================================");
+                    "-----------------------------------\n");
+            noSale-=saleMoney;
         }
-       if(noSale<=salePro1&&noSale<=salePro2){
-           bf.append("总计："+format.format(noSale)+"元\n" +
-                   "===================================");
-       }
+        bf.append("总计："+format.format(noSale)+"元\n" +
+                "===================================");
         return bf.toString();
     }
 }
